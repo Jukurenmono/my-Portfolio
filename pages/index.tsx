@@ -1,78 +1,50 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-dark1 text-white">
+
+      <nav className="flex items-center justify-between px-8 py-4 bg-dark3 shadow-lg">
+        <h1 className="text-2xl font-bold text-primary">MyPortfolio</h1>
+        <div className="space-x-6 text-grayish">
+          <a href="#about" className="hover:text-primary transition">About</a>
+          <a href="#projects" className="hover:text-primary transition">Projects</a>
+          <a href="#contact" className="hover:text-primary transition">Contact</a>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </nav>
+
+      <section className="flex flex-col justify-center items-start px-10 md:px-20 h-[80vh] bg-dark1">
+        <h2 className="text-5xl font-extrabold mb-4">
+          Hi, I'm <span className="text-primary">Christian</span>
+        </h2>
+        <p className="text-lg max-w-xl text-grayish">
+          A passionate developer crafting modern, smooth, and efficient web experiences.
+        </p>
+        <button className="mt-6 px-6 py-3 bg-primary text-dark1 font-semibold rounded-xl hover:opacity-90 transition">
+          View My Work
+        </button>
+      </section>
+
+      <section id="projects" className="px-10 md:px-20 py-20 bg-dark3">
+        <h3 className="text-3xl font-bold mb-10 text-primary">Projects</h3>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-dark2 p-6 rounded-2xl shadow-md hover:scale-[1.02] transition">
+              <h4 className="text-xl mb-2">Project {i}</h4>
+              <p className="text-grayish text-sm">Short description here.</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      <section id="contact" className="px-10 md:px-20 py-16 bg-dark1 text-center">
+        <h3 className="text-3xl font-bold text-primary mb-6">Get In Touch</h3>
+        <p className="text-grayish max-w-xl mx-auto mb-8">
+          Want to collaborate, ask something, or just say hi? My inbox is always open.
+        </p>
+        <button className="px-6 py-3 bg-primary text-dark1 font-semibold rounded-xl hover:opacity-90 transition">
+          Contact Me
+        </button>
+      </section>
     </div>
   );
 }
