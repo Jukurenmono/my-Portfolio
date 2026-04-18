@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform, type Variants } from "framer-motion";
+import { motion, scale, useScroll, useSpring, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import * as FaIcons from "react-icons/fa";
@@ -115,7 +115,7 @@ const CERTIFICATES: Certificate[] = [
   },
   {
     id: 3,
-    name: "Lean PHP and MySQL for Web Application and Web Development",
+    name: "Learn PHP and MySQL for Web Application and Web Development",
     issuer: "Udemy",
     date: "Sept 2024",
     category: "Backend",
@@ -322,22 +322,43 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active nav via IntersectionObserver
+  // Active nav — scroll-based, works correctly in both directions including bottom of page
   useEffect(() => {
-    const sections = (NAV_LINKS.map((n) => document.getElementById(n.toLowerCase()))
-      .filter(Boolean)) as HTMLElement[];
+    const ids = NAV_LINKS.map((n) => n.toLowerCase());
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
+    const getActiveId = () => {
+      const mid = window.innerHeight * 0.45;
+      let best: string = ids[0];
+      let bestDist = Infinity;
+
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top - mid);
+        if (rect.top <= mid + 80 && dist < bestDist) {
+          bestDist = dist;
+          best = id;
+        }
+      });
+
+      setActiveSection(best);
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          getActiveId();
+          ticking = false;
         });
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
-    );
+        ticking = true;
+      }
+    };
 
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    getActiveId();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Close modal on Escape key
@@ -385,9 +406,12 @@ export default function Home() {
                 : "bg-white/4 backdrop-blur-md border-white/8 shadow-none",
             ].join(" ")}
           >
-            <span className="text-primary font-bold tracking-widest text-xs md:text-sm select-none">
-              MyPortfolio
-            </span>
+            <motion.span
+              whileHover={{scale: 1.06}}
+              onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+              className="text-primary font-bold tracking-widest text-xs md:text-sm select-none">
+              Christian.dev
+            </motion.span>
 
             <div className="hidden md:flex gap-6 text-sm">
               {NAV_LINKS.map((label) => {
@@ -431,14 +455,14 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection("contact")}
+              onClick={() => {window.open('/resume/Alparo, Christian Lorrence B. - Resume.pdf', '_blank'); return false}}
               className="px-4 py-1.5 rounded-full bg-primary text-dark1
                          text-xs font-bold tracking-wide
                          shadow-[0_0_16px_rgba(0,255,200,0.35)]
                          hover:shadow-[0_0_24px_rgba(0,255,200,0.55)]
                          transition-shadow duration-300"
             >
-              <span className="hidden md:inline">Hire Me</span>
+              <span className="hidden md:inline">Resume</span>
               <span className="md:hidden">Hire</span>
             </motion.button>
           </motion.div>
