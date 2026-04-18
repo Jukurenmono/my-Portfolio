@@ -11,11 +11,11 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-primary: #3BBA9C;
-  --color-dark1: #2E3047;
-  --color-dark2: #43455C;
-  --color-dark3: #3C3F58;
-  --color-grayish: #707793;
+  --color-primary: #00ffc8;
+  --color-dark1: #0f172a;
+  --color-dark2: #1e293b;
+  --color-dark3: #020617;
+  --color-grayish: #94a3b8;
 }
 
 @media (prefers-color-scheme: dark) {
