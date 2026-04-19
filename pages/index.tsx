@@ -17,6 +17,18 @@ interface Project {
   image: string;
 }
 
+interface GithubRepo {
+  id: number;
+  name: string;
+  description: string | null;
+  html_url: string;
+  homepage: string | null;
+  topics: string[];
+  language: string | null;
+  stargazers_count: number;
+  fork: boolean;
+}
+
 interface Skill {
   name: string;
   icon: string;
@@ -31,70 +43,50 @@ interface Certificate {
   pdfUrl: string;
 }
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-const PROJECTS: Project[] = [
-  {
-    id: 1,
-    name: "Project Tracker",
-    description: "A productivity app for managing projects and tasks.",
-    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Firebase"],
-    githubUrl: "https://github.com/Jukurenmono/project-tracker.git",
-    liveUrl: "https://capstone-project-tracker.vercel.app/",
-    image: "/projects/projectTracker.png",
-  },
-  {
-    id: 2,
-    name: "Portfolio Website",
-    description: "Modern developer portfolio with smooth animations.",
-    techStack: ["React", "Framer Motion", "Tailwind CSS"],
-    githubUrl: "https://github.com/yourusername/portfolio",
-    liveUrl: "https://portfolio-demo.com",
-    image: "/projects/portfolio.png",
-  },
-  {
-    id: 3,
-    name: "E-commerce Platform",
-    description: "Full-stack e-commerce solution.",
-    techStack: ["Next.js", "MongoDB", "Stripe"],
-    githubUrl: "https://github.com/yourusername/ecommerce",
-    liveUrl: "https://ecommerce-demo.com",
-    image: "/projects/ecommerce.png",
-  },
-];
+interface Social {
+  label: string;
+  icon: string;
+  url: string;
+}
 
+// ─── Data ────────────────────────────────────────────────────────────────────
 const SKILLS: Skill[] = [
-  { name: "Next.js", icon: "SiNextdotjs" },
-  { name: "React", icon: "FaReact" },
-  { name: "TypeScript", icon: "SiTypescript" },
-  { name: "JavaScript", icon: "SiJavascript" },
-  { name: "HTML5", icon: "FaHtml5" },
-  { name: "CSS3", icon: "FaCss3Alt" },
-  { name: "Tailwind CSS", icon: "SiTailwindcss" },
-  { name: "Sass", icon: "SiSass" },
-  { name: "Framer Motion", icon: "SiFramer" },
-  { name: "Node.js", icon: "FaNodeJs" },
-  { name: "Express", icon: "SiExpress" },
-  { name: "MongoDB", icon: "SiMongodb" },
-  { name: "Firebase", icon: "SiFirebase" },
-  { name: "Supabase", icon: "SiSupabase" },
-  { name: "Git", icon: "FaGitAlt" },
-  { name: "GitHub", icon: "FaGithub" },
-  { name: "Vercel", icon: "SiVercel" },
-  { name: "Figma", icon: "FaFigma" },
-  { name: "GraphQL", icon: "SiGraphql" },
-  { name: "Prisma", icon: "SiPrisma" },
-  { name: "Docker", icon: "FaDocker" },
+  { name: "Next.js",       icon: "SiNextdotjs"  },
+  { name: "React",         icon: "FaReact"       },
+  { name: "TypeScript",    icon: "SiTypescript"  },
+  { name: "JavaScript",    icon: "SiJavascript"  },
+  { name: "HTML5",         icon: "FaHtml5"       },
+  { name: "CSS3",          icon: "FaCss3Alt"     },
+  { name: "Tailwind CSS",  icon: "SiTailwindcss" },
+  { name: "Framer Motion", icon: "SiFramer"      },
+  { name: "Node.js",       icon: "FaNodeJs"      },
+  { name: "Express",       icon: "SiExpress"     },
+  { name: "Firebase",      icon: "SiFirebase"    },
+  { name: "Supabase",      icon: "SiSupabase"    },
+  { name: "Git",           icon: "FaGitAlt"      },
+  { name: "GitHub",        icon: "FaGithub"      },
+  { name: "Vercel",        icon: "SiVercel"      },
+  { name: "Figma",         icon: "FaFigma"       },
 ];
 
 const getIcon = (iconName: string) => {
   const FaIcon = FaIcons[iconName as keyof typeof FaIcons];
   if (FaIcon) return FaIcon;
-
   const SiIcon = SiIcons[iconName as keyof typeof SiIcons];
   if (SiIcon) return SiIcon;
-
   return null;
 };
+
+const SOCIALS: Social[] = [
+  { label: "GitHub",    icon: "FaGithub",    url: "https://github.com/Jukurenmono" },
+  { label: "LinkedIn",  icon: "FaLinkedin",  url: "https://linkedin.com/in/christian-lorrence-alparo-78bb5434b" },
+  { label: "Facebook",  icon: "FaFacebook",  url: "https://facebook.com/Lorrence.Alparo" },
+  { label: "Instagram", icon: "FaInstagram", url: "https://www.instagram.com/rencelationism/" },
+  { label: "YouTube",   icon: "FaYoutube",   url: "https://www.youtube.com/@defectivemelody9419" },
+  { label: "Twitter/X", icon: "FaTwitter",   url: "https://x.com/rencelationism" },
+];
+
+const MY_EMAIL = "lorrence.alparo@gmail.com";
 
 const CERTIFICATES: Certificate[] = [
   {
@@ -107,14 +99,6 @@ const CERTIFICATES: Certificate[] = [
   },
   {
     id: 2,
-    name: "Build Complete CMS Blog in PHP MySQL Bootstrap & PDO",
-    issuer: "Udemy",
-    date: "Dec 2024",
-    category: "Backend",
-    pdfUrl: "certificates/Udemy Certificate 2.pdf",
-  },
-  {
-    id: 3,
     name: "Learn PHP and MySQL for Web Application and Web Development",
     issuer: "Udemy",
     date: "Sept 2024",
@@ -122,48 +106,18 @@ const CERTIFICATES: Certificate[] = [
     pdfUrl: "certificates/Udemy Certificate.pdf",
   },
   {
-    id: 4,
-    name: "Node.js Application Development",
-    issuer: "OpenJS Foundation",
-    date: "Apr 2024",
+    id: 3,
+    name: "Build Complete CMS Blog in PHP MySQL Bootstrap & PDO",
+    issuer: "Udemy",
+    date: "Dec 2024",
     category: "Backend",
-    pdfUrl: "/certificates/nodejs-dev.pdf",
-  },
-  {
-    id: 5,
-    name: "MongoDB Associate Developer",
-    issuer: "MongoDB University",
-    date: "May 2024",
-    category: "Database",
-    pdfUrl: "/certificates/mongodb-associate.pdf",
-  },
-  {
-    id: 6,
-    name: "Google UX Design",
-    issuer: "Google / Coursera",
-    date: "Jun 2024",
-    category: "Design",
-    pdfUrl: "/certificates/google-ux.pdf",
-  },
-  {
-    id: 7,
-    name: "AWS Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    date: "Jul 2024",
-    category: "Cloud",
-    pdfUrl: "/certificates/aws-cloud.pdf",
-  },
-  {
-    id: 8,
-    name: "Docker & Kubernetes Fundamentals",
-    issuer: "KodeKloud",
-    date: "Aug 2024",
-    category: "DevOps",
-    pdfUrl: "/certificates/docker-k8s.pdf",
+    pdfUrl: "certificates/Udemy Certificate 2.pdf",
   },
 ];
 
 const NAV_LINKS = ["About", "Projects", "Certificates", "Contact"] as const;
+
+const GITHUB_USERNAME = "Jukurenmono";
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 const containerVariants: Variants = {
@@ -239,7 +193,6 @@ function AuroraCanvas() {
         ctx.fillRect(0, 0, w, h);
       });
 
-      // Subtle grid lines
       ctx.strokeStyle = "rgba(0,255,200,0.15)";
       ctx.lineWidth = 1;
       const grid = 80;
@@ -250,7 +203,6 @@ function AuroraCanvas() {
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
       }
 
-      // Vignette
       const vignette = ctx.createRadialGradient(
         w / 2, h / 2, h * 0.2,
         w / 2, h / 2, h * 0.85
@@ -309,11 +261,130 @@ function scrollToSection(id: string) {
   window.scrollTo({ top, behavior: "smooth" });
 }
 
+// ─── Project Card Skeleton ────────────────────────────────────────────────────
+function ProjectSkeleton() {
+  return (
+    <div className="rounded-2xl overflow-hidden border border-white/10 bg-white/4 animate-pulse">
+      <div className="h-48 bg-white/8" />
+      <div className="p-6 space-y-3">
+        <div className="h-4 bg-white/8 rounded w-3/4" />
+        <div className="h-3 bg-white/8 rounded w-full" />
+        <div className="h-3 bg-white/8 rounded w-2/3" />
+        <div className="flex gap-2 mt-4">
+          <div className="h-5 w-16 bg-white/8 rounded-full" />
+          <div className="h-5 w-16 bg-white/8 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Social Icons Row ─────────────────────────────────────────────────────────
+function SocialIcons({ direction = "row" }: { direction?: "row" | "col" }) {
+  return (
+    <div className={`flex ${direction === "col" ? "flex-col" : "flex-row"} gap-3`}>
+      {SOCIALS.map((s) => {
+        const Icon = getIcon(s.icon);
+        return (
+          <motion.a
+            key={s.label}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.2, y: direction === "col" ? 0 : -2 }}
+            whileTap={{ scale: 0.9 }}
+            title={s.label}
+            className="w-9 h-9 rounded-full border border-white/10 bg-white/5
+                       flex items-center justify-center text-grayish
+                       hover:border-primary/60 hover:text-primary
+                       hover:shadow-[0_0_12px_rgba(0,255,200,0.3)]
+                       transition-all duration-200"
+          >
+            {Icon ? <Icon className="w-4 h-4" /> : null}
+          </motion.a>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [scrolled, setScrolled]           = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const [activeCert, setActiveCert]       = useState<Certificate | null>(null);
+  const [repos, setRepos]                 = useState<GithubRepo[]>([]);
+  const [reposLoading, setReposLoading]   = useState(true);
+  const [reposError, setReposError]       = useState(false);
+  const [copied, setCopied]               = useState(false);
+
+  // Copy email to clipboard
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(MY_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback for older browsers
+      const el = document.createElement("textarea");
+      el.value = MY_EMAIL;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
+  // Fetch GitHub repos with topic:portfolio (owned + collaborated)
+  useEffect(() => {
+    const fetchRepos = async () => {
+      setReposLoading(true);
+      setReposError(false);
+      try {
+        const headers = { Accept: "application/vnd.github+json" };
+
+        const [ownedRes, involvedRes] = await Promise.all([
+          fetch(
+            `https://api.github.com/search/repositories?q=topic:portfolio+user:${GITHUB_USERNAME}&per_page=30`,
+            { headers }
+          ),
+          fetch(
+            `https://api.github.com/search/repositories?q=topic:portfolio+involves:${GITHUB_USERNAME}&per_page=30`,
+            { headers }
+          ),
+        ]);
+
+        if (!ownedRes.ok && !involvedRes.ok) throw new Error("GitHub API error");
+
+        const [ownedData, involvedData] = await Promise.all([
+          ownedRes.ok ? ownedRes.json() : { items: [] },
+          involvedRes.ok ? involvedRes.json() : { items: [] },
+        ]);
+
+        const merged = [
+          ...(ownedData.items ?? []),
+          ...(involvedData.items ?? []),
+        ] as GithubRepo[];
+
+        const seen = new Set<number>();
+        const unique = merged.filter((r) => {
+          if (seen.has(r.id)) return false;
+          seen.add(r.id);
+          return true;
+        });
+
+        setRepos(unique);
+      } catch {
+        setReposError(true);
+      } finally {
+        setReposLoading(false);
+      }
+    };
+
+    fetchRepos();
+  }, []);
 
   // Navbar glass on scroll
   useEffect(() => {
@@ -322,7 +393,7 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active nav — scroll-based, works correctly in both directions including bottom of page
+  // Active nav — scroll-based
   useEffect(() => {
     const ids = NAV_LINKS.map((n) => n.toLowerCase());
 
@@ -370,6 +441,10 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Format repo name: "my-cool-repo" → "My Cool Repo"
+  const formatRepoName = (name: string) =>
+    name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden">
 
@@ -385,6 +460,18 @@ export default function Home() {
           backgroundSize: "128px",
         }}
       />
+
+      {/* ── Copied toast ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: copied ? 1 : 0, y: copied ? 0 : 20 }}
+        transition={{ duration: 0.25 }}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-200 pointer-events-none
+                   px-5 py-2.5 rounded-full bg-primary text-dark1 text-xs font-bold
+                   shadow-[0_0_24px_rgba(0,255,200,0.5)] tracking-wide"
+      >
+        ✓ Email copied to clipboard!
+      </motion.div>
 
       {/* Scroll indicator */}
       <ScrollProgress />
@@ -407,9 +494,10 @@ export default function Home() {
             ].join(" ")}
           >
             <motion.span
-              whileHover={{scale: 1.06}}
-              onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-              className="text-primary font-bold tracking-widest text-xs md:text-sm select-none">
+              whileHover={{ scale: 1.06 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="text-primary font-bold tracking-widest text-xs md:text-sm select-none cursor-pointer"
+            >
               Christian.dev
             </motion.span>
 
@@ -439,14 +527,6 @@ export default function Home() {
                       animate={{ width: isActive ? "100%" : "0%" }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     />
-
-                    {isActive && (
-                      <motion.span
-                        layoutId="navDot"
-                        className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary shadow-[0_0_6px_#00ffc8]"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                      />
-                    )}
                   </button>
                 );
               })}
@@ -455,7 +535,7 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => {window.open('/resume/Alparo, Christian Lorrence B. - Resume.pdf', '_blank'); return false}}
+              onClick={() => { window.open("/resume/Alparo, Christian Lorrence B. - Resume.pdf", "_blank"); return false; }}
               className="px-4 py-1.5 rounded-full bg-primary text-dark1
                          text-xs font-bold tracking-wide
                          shadow-[0_0_16px_rgba(0,255,200,0.35)]
@@ -470,6 +550,17 @@ export default function Home() {
 
         {/* ════ HERO ════ */}
         <section className="relative px-10 md:px-20 h-screen flex flex-col justify-center">
+
+          {/* Social icons — fixed left side, vertically centered */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-4"
+          >
+            <SocialIcons direction="col" />
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
@@ -592,7 +683,7 @@ export default function Home() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-60px" }}
-            className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3"
+            className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-3"
           >
             {SKILLS.map((skill) => (
               <motion.div
@@ -608,9 +699,7 @@ export default function Home() {
                 {(() => {
                   const Icon = getIcon(skill.icon);
                   return Icon ? (
-                    <Icon
-                      className="w-7 h-7 text-primary group-hover:scale-110 transition-transform duration-300"
-                    />
+                    <Icon className="w-7 h-7 text-primary group-hover:scale-110 transition-transform duration-300" />
                   ) : null;
                 })()}
                 <span className="text-[10px] text-grayish text-center leading-tight">
@@ -628,68 +717,130 @@ export default function Home() {
             <div className="flex-1 h-px bg-linear-to-r from-primary/40 to-transparent" />
           </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            className="grid md:grid-cols-3 gap-8"
-          >
-            {PROJECTS.map((project) => (
-              <motion.div
-                key={project.id}
-                variants={cardVariant}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="group relative rounded-2xl overflow-hidden
-                           border border-white/10 bg-white/4 backdrop-blur-md
-                           hover:border-primary/40
-                           hover:shadow-[0_20px_60px_rgba(0,255,200,0.1)]
-                           transition-all duration-300"
+          {/* Loading skeletons */}
+          {reposLoading && (
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => <ProjectSkeleton key={i} />)}
+            </div>
+          )}
+
+          {/* Error state */}
+          {reposError && !reposLoading && (
+            <div className="text-center py-16">
+              <p className="text-grayish text-sm mb-4">
+                Couldn&apos;t load projects from GitHub.
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="text-xs text-primary border border-primary/30 px-4 py-2 rounded-full
+                           hover:bg-primary/5 transition-all duration-200"
               >
-                {/* Project image */}
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={project.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                Try again
+              </button>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!reposLoading && !reposError && repos.length === 0 && (
+            <p className="text-grayish text-sm text-center py-16">
+              No repos with the <span className="text-primary font-mono">portfolio</span> topic found.
+            </p>
+          )}
+
+          {/* Repos grid */}
+          {!reposLoading && !reposError && repos.length > 0 && (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-60px" }}
+              className="grid md:grid-cols-3 gap-8"
+            >
+              {repos.map((repo) => (
+                <motion.div
+                  key={repo.id}
+                  variants={cardVariant}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="group relative rounded-2xl overflow-hidden
+                             border border-white/10 bg-white/4 backdrop-blur-md
+                             hover:border-primary/40
+                             hover:shadow-[0_20px_60px_rgba(0,255,200,0.1)]
+                             transition-all duration-300"
+                >
+                  {/* Shine sweep on hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
+                    style={{
+                      background:
+                        "linear-gradient(105deg, transparent 40%, rgba(0,255,200,0.05) 50%, transparent 60%)",
+                    }}
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-dark3 via-transparent to-transparent opacity-80" />
-                </div>
 
-                {/* Shine sweep on hover */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(105deg, transparent 40%, rgba(0,255,200,0.05) 50%, transparent 60%)",
-                  }}
-                />
+                  <div className="p-6 flex flex-col h-full min-h-[200px]">
+                    <h4 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
+                      {formatRepoName(repo.name)}
+                    </h4>
 
-                <div className="p-6">
-                  <h4 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors duration-300">
-                    {project.name}
-                  </h4>
-                  <p className="text-grayish text-sm mb-5 leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.techStack.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="text-[10px] px-3 py-1 rounded-full
-                                   bg-primary/8 border border-primary/20
-                                   text-primary/80 font-medium"
+                    <p className="text-grayish text-sm mb-5 leading-relaxed flex-1">
+                      {repo.description ?? "No description provided."}
+                    </p>
+
+                    {/* Topics as tech stack tags (excluding "portfolio") */}
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {repo.topics
+                        .filter((t) => t !== "portfolio")
+                        .slice(0, 6)
+                        .map((topic, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] px-3 py-1 rounded-full
+                                       bg-primary/8 border border-primary/20
+                                       text-primary/80 font-medium"
+                          >
+                            {topic}
+                          </span>
+                        ))}
+                    </div>
+
+                    {/* Action buttons — slide up on hover */}
+                    <div className="flex gap-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <a
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold
+                                   border border-white/20 bg-white/5 text-white
+                                   hover:border-primary/60 hover:text-primary
+                                   transition-all duration-200"
                       >
-                        {tech}
-                      </span>
-                    ))}
+                        {(() => { const I = getIcon("FaGithub"); return I ? <I className="w-3.5 h-3.5" /> : null; })()}
+                        GitHub
+                      </a>
+
+                      {repo.homepage && (
+                        <a
+                          href={repo.homepage}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold
+                                     bg-primary text-dark1
+                                     shadow-[0_0_12px_rgba(0,255,200,0.3)]
+                                     hover:shadow-[0_0_20px_rgba(0,255,200,0.5)]
+                                     transition-all duration-200"
+                        >
+                          {(() => { const I = getIcon("FaExternalLinkAlt"); return I ? <I className="w-3 h-3" /> : null; })()}
+                          Live
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </section>
 
         {/* ════ CERTIFICATES ════ */}
@@ -718,7 +869,6 @@ export default function Home() {
                            hover:shadow-[0_0_40px_rgba(0,255,200,0.12)]
                            transition-all duration-300"
               >
-                {/* Holographic shimmer on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
                   style={{
@@ -727,26 +877,20 @@ export default function Home() {
                   }}
                 />
 
-                {/* Category badge */}
                 <span className="inline-block text-[10px] font-mono tracking-widest uppercase
                                  px-2.5 py-1 rounded-full border border-primary/30
                                  bg-primary/8 text-primary/80 mb-4">
                   {cert.category}
                 </span>
 
-                {/* Cert name */}
                 <h4 className="text-sm font-semibold text-white leading-snug mb-1
                                group-hover:text-primary transition-colors duration-300">
                   {cert.name}
                 </h4>
 
-                {/* Issuer */}
                 <p className="text-xs text-grayish mb-4">{cert.issuer}</p>
-
-                {/* Date */}
                 <p className="text-[10px] font-mono text-grayish/60">{cert.date}</p>
 
-                {/* VERIFIED stamp — rotates in on hover */}
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100
                                rotate-[-20deg] group-hover:rotate-[-12deg]
                                transition-all duration-300">
@@ -757,7 +901,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Click hint */}
                 <div className="absolute bottom-4 right-5 opacity-0 group-hover:opacity-100
                                transition-opacity duration-300">
                   <span className="text-[9px] font-mono text-primary/60 tracking-wider">
@@ -789,7 +932,6 @@ export default function Home() {
                          border border-primary/30 bg-dark2 flex flex-col
                          shadow-[0_0_80px_rgba(0,255,200,0.12)]"
             >
-              {/* Modal header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0 bg-dark1/60">
                 <div>
                   <p className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">
@@ -812,14 +954,12 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* PDF viewer */}
               <iframe
                 src={`${activeCert.pdfUrl}#toolbar=0&navpanes=0&view=FitH`}
                 title={activeCert.name}
                 className="flex-1 w-full border-0 bg-dark2"
               />
 
-              {/* Bottom accent line */}
               <div className="absolute bottom-0 left-0 right-0 h-[2px]
                              bg-linear-to-r from-transparent via-primary/60 to-transparent" />
             </motion.div>
@@ -851,26 +991,46 @@ export default function Home() {
               just a good chat about tech.
             </p>
 
-            <motion.a
+            {/* Email copy button */}
+            <motion.button
               whileHover={{ scale: 1.07 }}
               whileTap={{ scale: 0.95 }}
-              href="mailto:youremail@example.com"
-              className="inline-block mt-8 px-8 py-3.5 bg-primary text-dark1
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 bg-primary text-dark1
                          rounded-xl font-bold text-sm tracking-wide
                          shadow-[0_0_30px_rgba(0,255,200,0.45)]
                          hover:shadow-[0_0_50px_rgba(0,255,200,0.65)]
                          transition-shadow duration-300"
             >
-              Email Me →
-            </motion.a>
+              {(() => {
+                const Icon = getIcon(copied ? "FaCheck" : "FaRegCopy");
+                return Icon ? <Icon className="w-4 h-4" /> : null;
+              })()}
+              {copied ? "Copied!" : "Copy Email"}
+            </motion.button>
+
+            <p className="mt-3 text-grayish/50 text-xs font-mono">{MY_EMAIL}</p>
+
+            {/* Socials row */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="flex lg:hidden justify-center mt-8"
+            >
+              <SocialIcons direction="row" />
+            </motion.div>
           </motion.div>
         </section>
 
         {/* ════ FOOTER ════ */}
-        <footer className="px-10 md:px-20 py-8 border-t border-white/5 text-center">
-          <p className="text-grayish/40 text-xs font-mono tracking-wider">
-            © {new Date().getFullYear()} Christian · Built with Next.js &amp; Framer Motion
-          </p>
+        <footer className="px-10 md:px-20 py-8 border-t border-white/5">
+          <div className="flex justify-center">
+            <p className="text-grayish/40 text-xs font-mono tracking-wider text-center">
+              © {new Date().getFullYear()} Christian · Built with Next.js & Framer Motion
+            </p>
+          </div>
         </footer>
 
       </div>
