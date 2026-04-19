@@ -347,11 +347,11 @@ export default function Home() {
 
         const [ownedRes, involvedRes] = await Promise.all([
           fetch(
-            `https://api.github.com/search/repositories?q=topic:portfolio+user:${GITHUB_USERNAME}&per_page=30`,
+            `https://api.github.com/search/repositories?q=topic:portfolio+user:${GITHUB_USERNAME}+fork:true&per_page=30`,
             { headers }
           ),
           fetch(
-            `https://api.github.com/search/repositories?q=topic:portfolio+involves:${GITHUB_USERNAME}&per_page=30`,
+            `https://api.github.com/search/repositories?q=topic:portfolio+involves:${GITHUB_USERNAME}+fork:true&per_page=30`,
             { headers }
           ),
         ]);
