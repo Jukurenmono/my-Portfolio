@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ───────────────────────────────────────────────────────────────────
 interface Project {
   id: number;
   name: string;
@@ -112,6 +112,30 @@ const CERTIFICATES: Certificate[] = [
     date: "Dec 2024",
     category: "Backend",
     pdfUrl: "certificates/Udemy Certificate 2.pdf",
+  },
+  {
+    id: 4,
+    name: "Machine Learning using Python",
+    issuer: "Simplilearn",
+    date: "May 2026",
+    category: "Machine Learning",
+    pdfUrl: "certificates/Machine Learning using Python.pdf",
+  },
+  {
+    id: 5,
+    name: "Introduction to OpenCV for Beginners",
+    issuer: "Simplilearn",
+    date: "May 2026",
+    category: "Machine Learning",
+    pdfUrl: "certificates/Introduction to OpenCV for Beginners.pdf",
+  },
+  {
+    id: 6,
+    name: "Introduction to Front End Development",
+    issuer: "Simplilearn",
+    date: "May 2026",
+    category: "Frontend",
+    pdfUrl: "certificates/Introduction to Front End Development.pdf",
   },
 ];
 
