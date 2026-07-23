@@ -366,47 +366,25 @@ export default function Home() {
     const fetchRepos = async () => {
       setReposLoading(true);
       setReposError(false);
+  
       try {
-        const headers = { Accept: "application/vnd.github+json" };
-
-        const [ownedRes, involvedRes] = await Promise.all([
-          fetch(
-            `https://api.github.com/search/repositories?q=topic:portfolio+user:${GITHUB_USERNAME}+fork:true&per_page=30`,
-            { headers }
-          ),
-          fetch(
-            `https://api.github.com/search/repositories?q=topic:portfolio+involves:${GITHUB_USERNAME}+fork:true&per_page=30`,
-            { headers }
-          ),
-        ]);
-
-        if (!ownedRes.ok && !involvedRes.ok) throw new Error("GitHub API error");
-
-        const [ownedData, involvedData] = await Promise.all([
-          ownedRes.ok ? ownedRes.json() : { items: [] },
-          involvedRes.ok ? involvedRes.json() : { items: [] },
-        ]);
-
-        const merged = [
-          ...(ownedData.items ?? []),
-          ...(involvedData.items ?? []),
-        ] as GithubRepo[];
-
-        const seen = new Set<number>();
-        const unique = merged.filter((r) => {
-          if (seen.has(r.id)) return false;
-          seen.add(r.id);
-          return true;
-        });
-
-        setRepos(unique);
-      } catch {
+        const res = await fetch("/api/github");
+  
+        if (!res.ok) {
+          throw new Error("Failed to fetch repositories");
+        }
+  
+        const data: GithubRepo[] = await res.json();
+  
+        setRepos(data);
+      } catch (error) {
+        console.error("Error fetching repositories:", error);
         setReposError(true);
       } finally {
         setReposLoading(false);
       }
     };
-
+  
     fetchRepos();
   }, []);
 
