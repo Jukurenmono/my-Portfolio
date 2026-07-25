@@ -537,7 +537,7 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => { window.open("/resume/Alparo, Christian Lorrence B. - Resume.pdf", "_blank"); return false; }}
+              onClick={() => { window.open("/resume/Christian_Lorrence_Alparo_Resume.pdf", "_blank"); return false; }}
               className="px-4 py-1.5 rounded-full bg-primary text-dark1
                          text-xs font-bold tracking-wide
                          shadow-[0_0_16px_rgba(0,255,200,0.35)]
