@@ -110,7 +110,7 @@ const MY_NAME = "Christian Lorrence Alparo";
 const EMAILJS = {
   serviceId:  process.env.EMAILJS_SERVICE_ID  ?? "",
   templateId: process.env.EMAILJS_TEMPLATE_ID ?? "",
-  publicKey:  process.env.EMAILJS_PRIVATE_KEY  ?? "",
+  publicKey:  process.env.EMAILJS_KEY  ?? "",
 };
 const emailReady = Boolean(EMAILJS.serviceId && EMAILJS.templateId && EMAILJS.publicKey);
 
