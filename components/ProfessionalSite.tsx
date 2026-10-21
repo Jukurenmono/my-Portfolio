@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// Types
 interface GithubRepo {
   id: number;
   name: string;
@@ -29,25 +29,25 @@ interface Highlight {
   points: string[];
 }
 
-// ─── Content: edit this block, not the JSX ───────────────────────────────────
+// Content
 const PROFILE = {
   name: "Christian Lorrence Alparo",
   title: "IT Professional and Full-Stack Developer",
   summary:
     "I build web and mobile systems from database to interface: authentication, payments, real-time data, and admin dashboards. I use AI tools to move faster, and I review and test everything I ship.",
-  // Verify these three before publishing.
+  // Check before publishing
   availability: "Open to full-time and internship roles",
   education: "Information Technology, Holy Cross of Davao College",
   focus: "Full-stack web and mobile applications",
   email: "lorrence.alparo@gmail.com",
   resume: "/resume/Christian_Lorrence_Alparo_Resume.pdf",
-  // Optional portrait. Put the file in public/images/ and set e.g. "/images/profile.jpg". Empty hides it.
+  // Portrait (leave empty to hide)
   photo: "/images/profile.jpg",
   github: "https://github.com/Jukurenmono",
   linkedin: "https://linkedin.com/in/christian-lorrence-alparo-78bb5434b",
 };
 
-// EmailJS settings live in .env.local (and in Vercel's environment variables).
+// EmailJS settings (from env)
 const EMAILJS = {
   serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
   templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
@@ -63,7 +63,7 @@ const NAV = [
   { id: "contact", label: "Contact" },
 ];
 
-// featured: false keeps a link in the data but hides it from the footer. Flip to true to show it.
+// featured = show in footer
 const SOCIALS = [
   { label: "GitHub", icon: "FaGithub", url: PROFILE.github, featured: true },
   { label: "LinkedIn", icon: "FaLinkedin", url: PROFILE.linkedin, featured: true },
@@ -108,7 +108,7 @@ const SKILL_GROUPS: { title: string; items: { name: string; icon?: string }[] }[
   },
   {
     title: "AI tools",
-    // List only tools you actually use.
+    // Only list tools you use
     items: [
       { name: "Claude" }, { name: "ChatGPT" }, { name: "Gemini" }, { name: "GitHub Copilot" },
     ],
@@ -121,9 +121,7 @@ const AI_WORKFLOW = [
   { title: "Learn", text: "I use AI to explain unfamiliar APIs and errors, then confirm against official docs." },
 ];
 
-// Keyed by repo name in lowercase with symbols removed ("HCDC-ITS-Portal" -> "hcdcitsportal").
-// Order here is the display order. Add real numbers where you have them
-// (users, events served, pages per second) because hiring managers look for them.
+// Project highlights, keyed by repo name (lowercase, no symbols)
 const HIGHLIGHTS: Record<string, Highlight> = {
   hcdcitsportal: { points: ["Attendance monitoring for IT students", "Separate student and admin dashboards", "Online membership fee payments and sanction tracking"] },
   bayadbox: { points: ["Secure sign-in and account management", "RFID-based payments with top-up management", "Real-time transaction history"] },
@@ -136,7 +134,7 @@ const HIGHLIGHTS: Record<string, Highlight> = {
 const HIDDEN_TOPICS = ["portfolio", "private-repository"];
 
 const CERTIFICATES: Certificate[] = [
-  // TODO: fill in the test dates. An empty date is simply not shown.
+  // TODO: add dates
   { id: 8, name: "TOPCIT 12th Test: Certificate and Results", issuer: "TOPCIT (IITP)", date: "", category: "IT Competency", pdfUrl: "certificates/12TH TOPCIT CERTIFICATE AND RESULTS.pdf" },
   { id: 7, name: "TOPCIT 11th Test: Certificate and Results", issuer: "TOPCIT (IITP)", date: "", category: "IT Competency", pdfUrl: "certificates/11TH TOPCIT CERTIFICATE AND RESULTS.pdf" },
   { id: 6, name: "Introduction to Front End Development", issuer: "Simplilearn", date: "May 2026", category: "Frontend", pdfUrl: "certificates/Introduction to Front End Development.pdf" },
@@ -147,7 +145,7 @@ const CERTIFICATES: Certificate[] = [
   { id: 1, name: "Introduction to SQL", issuer: "Simplilearn SkillUp", date: "Sept 2024", category: "Backend", pdfUrl: "certificates/Simplilearn SkillUp SQL Certificate.pdf" },
 ];
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// Helpers
 const getIcon = (name?: string) => {
   if (!name) return null;
   return FaIcons[name as keyof typeof FaIcons] ?? SiIcons[name as keyof typeof SiIcons] ?? null;
@@ -217,7 +215,7 @@ function SocialIcons({ all = false }: { all?: boolean }) {
 const linkBtn =
   "inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// Page
 export default function ProfessionalSite() {
   const [active, setActive] = useState("");
   const [activeCert, setActiveCert] = useState<Certificate | null>(null);
@@ -230,7 +228,7 @@ export default function ProfessionalSite() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [dark, setDark] = useState(false);
 
-  // Theme: saved choice first, then the OS setting
+  // Load saved theme
   useEffect(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -281,7 +279,7 @@ export default function ProfessionalSite() {
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.website) return; // hidden field: only bots fill it in
+    if (form.website) return; // honeypot
     if (!emailReady) { setStatus("error"); return; }
     setStatus("sending");
     try {
@@ -320,14 +318,14 @@ export default function ProfessionalSite() {
     })();
   }, []);
 
-  // Navbar style on scroll
+  // Navbar shadow on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Active nav: scroll-based (your original logic)
+  // Active nav on scroll
   useEffect(() => {
     const ids = NAV.map((n) => n.id);
     const getActiveId = () => {
@@ -635,7 +633,7 @@ export default function ProfessionalSite() {
                   Message
                   <textarea required rows={5} maxLength={2000} name="message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className={fieldCls} />
                 </label>
-                {/* Honeypot: hidden from people, filled in by bots */}
+                {/* Honeypot (bots only) */}
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="hidden" />
                 <div className="flex flex-wrap items-center gap-4">
                   <button

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import ProfessionalSite from "../components/ProfessionalSite";
-import ShowcaseSite from "../components/ShowcaseSite"; // your original page.tsx, unchanged
+import ShowcaseSite from "../components/ShowcaseSite";
 
 type Version = "professional" | "showcase";
 
 export default function Page() {
-  const [version, setVersion] = useState<Version>("showcase");
+  const [version, setVersion] = useState<Version>("professional");
 
-  // Remember the visitor's choice. First-time visitors get the professional version.
+  // Restore saved choice
   useEffect(() => {
     try {
       const saved = localStorage.getItem("site-version");
