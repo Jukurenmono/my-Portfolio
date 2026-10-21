@@ -104,13 +104,15 @@ const SOCIALS: Social[] = [
 
 const MY_EMAIL = "lorrence.alparo@gmail.com";
 
+// Portrait shown in the hero. File lives in public/images/. Empty string hides it.
 const PHOTO = "/images/profile.jpg";
 const MY_NAME = "Christian Lorrence Alparo";
 
+// EmailJS settings live in .env.local (and in Vercel's environment variables).
 const EMAILJS = {
-  serviceId:  process.env.EMAILJS_SERVICE_ID  ?? "",
-  templateId: process.env.EMAILJS_TEMPLATE_ID ?? "",
-  publicKey:  process.env.EMAILJS_KEY  ?? "",
+  serviceId:  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "",
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+  publicKey:  process.env.NEXT_PUBLIC_EMAILJS_USER_ID  ?? "",
 };
 const emailReady = Boolean(EMAILJS.serviceId && EMAILJS.templateId && EMAILJS.publicKey);
 
@@ -162,6 +164,23 @@ const CERTIFICATES: Certificate[] = [
     date: "May 2026",
     category: "Frontend",
     pdfUrl: "certificates/Introduction to Front End Development.pdf",
+  },
+  // TODO: fill in the test dates. An empty date is simply not shown.
+  {
+    id: 7,
+    name: "TOPCIT 11th Test: Certificate and Results",
+    issuer: "TOPCIT (IITP)",
+    date: "",
+    category: "IT Competency",
+    pdfUrl: "certificates/11TH TOPCIT CERTIFICATE AND RESULTS.pdf",
+  },
+  {
+    id: 8,
+    name: "TOPCIT 12th Test: Certificate and Results",
+    issuer: "TOPCIT (IITP)",
+    date: "",
+    category: "IT Competency",
+    pdfUrl: "certificates/12TH TOPCIT CERTIFICATE AND RESULTS.pdf",
   },
 ];
 
@@ -1143,7 +1162,7 @@ export default function Home() {
               <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0 bg-dark1/60">
                 <div>
                   <p className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">
-                    {activeCert.category} · {activeCert.date}
+                    {[activeCert.category, activeCert.date].filter(Boolean).join(" · ")}
                   </p>
                   <h4 className="text-base font-bold text-white mt-0.5">
                     {activeCert.name}
