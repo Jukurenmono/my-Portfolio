@@ -49,9 +49,9 @@ const PROFILE = {
 
 // EmailJS settings live in .env.local (and in Vercel's environment variables).
 const EMAILJS = {
-  serviceId: process.env.EMAILJS_SERVICE_ID ?? "",
-  templateId: process.env.EMAILJS_TEMPLATE_ID ?? "",
-  publicKey: process.env.EMAILJS_KEY ?? "",
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
+  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_USER_ID ?? "",
 };
 const emailReady = Boolean(EMAILJS.serviceId && EMAILJS.templateId && EMAILJS.publicKey);
 
@@ -136,6 +136,9 @@ const HIGHLIGHTS: Record<string, Highlight> = {
 const HIDDEN_TOPICS = ["portfolio", "private-repository"];
 
 const CERTIFICATES: Certificate[] = [
+  // TODO: fill in the test dates. An empty date is simply not shown.
+  { id: 8, name: "TOPCIT 12th Test: Certificate and Results", issuer: "TOPCIT (IITP)", date: "", category: "IT Competency", pdfUrl: "certificates/12TH TOPCIT CERTIFICATE AND RESULTS.pdf" },
+  { id: 7, name: "TOPCIT 11th Test: Certificate and Results", issuer: "TOPCIT (IITP)", date: "", category: "IT Competency", pdfUrl: "certificates/11TH TOPCIT CERTIFICATE AND RESULTS.pdf" },
   { id: 6, name: "Introduction to Front End Development", issuer: "Simplilearn", date: "May 2026", category: "Frontend", pdfUrl: "certificates/Introduction to Front End Development.pdf" },
   { id: 5, name: "Introduction to OpenCV for Beginners", issuer: "Simplilearn", date: "May 2026", category: "Machine Learning", pdfUrl: "certificates/Introduction to OpenCV for Beginners.pdf" },
   { id: 4, name: "Machine Learning using Python", issuer: "Simplilearn", date: "May 2026", category: "Machine Learning", pdfUrl: "certificates/Machine Learning using Python.pdf" },
@@ -688,7 +691,7 @@ export default function ProfessionalSite() {
               <div className="flex items-start justify-between border-b border-slate-200 dark:border-slate-800 px-5 py-4">
                 <div>
                   <h3 className="font-semibold text-slate-900 dark:text-white">{activeCert.name}</h3>
-                  <p className="text-sm">{activeCert.issuer}, {activeCert.date}</p>
+                  <p className="text-sm">{[activeCert.issuer, activeCert.date].filter(Boolean).join(", ")}</p>
                 </div>
                 <button onClick={() => setActiveCert(null)} className="rounded px-2 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Close certificate">
                   Close
