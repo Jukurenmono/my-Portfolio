@@ -70,8 +70,7 @@ const SKILLS: Skill[] = [
   { name: "Figma",         icon: "FaFigma"       },
 ];
 
-// List only AI tools you actually use. An icon missing from your react-icons
-// version falls back to a robot icon.
+// Only list AI tools you use
 const AI_TOOLS: Skill[] = [
   { name: "Claude",         icon: "SiClaude"        },
   { name: "ChatGPT",        icon: "SiOpenai"        },
@@ -104,11 +103,11 @@ const SOCIALS: Social[] = [
 
 const MY_EMAIL = "lorrence.alparo@gmail.com";
 
-// Portrait shown in the hero. File lives in public/images/. Empty string hides it.
+// Hero portrait (leave empty to hide)
 const PHOTO = "/images/profile.jpg";
 const MY_NAME = "Christian Lorrence Alparo";
 
-// EmailJS settings live in .env.local (and in Vercel's environment variables).
+// EmailJS settings (from env)
 const EMAILJS = {
   serviceId:  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "",
   templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
@@ -165,7 +164,7 @@ const CERTIFICATES: Certificate[] = [
     category: "Frontend",
     pdfUrl: "certificates/Introduction to Front End Development.pdf",
   },
-  // TODO: fill in the test dates. An empty date is simply not shown.
+  // TODO: add dates
   {
     id: 7,
     name: "TOPCIT 11th Test: Certificate and Results",
@@ -382,7 +381,7 @@ function HeroPhoto() {
   if (!PHOTO) return null;
   return (
     <>
-      {/* Phones and small screens: small avatar above the title */}
+      {/* Mobile avatar */}
       <Image
         src={PHOTO}
         alt={`Portrait of ${MY_NAME}`}
@@ -392,7 +391,7 @@ function HeroPhoto() {
                    shadow-[0_0_24px_rgba(0,255,200,0.2)]"
       />
 
-      {/* Larger screens: portrait on the right */}
+      {/* Desktop portrait */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -490,7 +489,7 @@ function ContactForm() {
 
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.website) return; // hidden field: only bots fill it in
+    if (form.website) return; // honeypot
     if (!emailReady) { setStatus("error"); return; }
     setStatus("sending");
     try {
@@ -525,7 +524,7 @@ function ContactForm() {
                 aria-label="Your message" placeholder="Your message"
                 value={form.message} onChange={set("message")} className={fieldCls} />
 
-      {/* Honeypot: hidden from people, filled in by bots */}
+      {/* Honeypot (bots only) */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden
              value={form.website} onChange={set("website")} className="hidden" />
 
@@ -933,7 +932,7 @@ export default function Home() {
             ))}
           </motion.div>
 
-          {/* AI tools + how I use them */}
+          {/* AI tools */}
           <AiTools />
         </section>
 
@@ -1238,7 +1237,7 @@ export default function Home() {
 
             <p className="mt-3 text-grayish/50 text-xs font-mono">{MY_EMAIL}</p>
 
-            {/* Direct message (EmailJS) */}
+            {/* Message form */}
             <ContactForm />
 
             {/* Socials row */}
