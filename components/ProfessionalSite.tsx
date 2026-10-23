@@ -535,7 +535,8 @@ export default function ProfessionalSite() {
             {!loading && !error && repos.length === 0 && (
               <p className="text-sm">No projects found yet. Add the topic &quot;portfolio&quot; to a repository to show it here.</p>
             )}
-            <motion.div variants={containerVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="border-b border-slate-200 dark:border-slate-800">
+            {!loading && !error && repos.length > 0 && (
+              <motion.div variants={containerVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="border-b border-slate-200 dark:border-slate-800">
               {repos.map((repo) => {
                 const h = HIGHLIGHTS[normalize(repo.name)];
                 const isPrivate = repo.topics.includes("private-repository");
@@ -577,6 +578,7 @@ export default function ProfessionalSite() {
                 );
               })}
             </motion.div>
+            )}
           </Section>
 
           {/* Certificates */}
