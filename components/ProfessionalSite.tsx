@@ -40,7 +40,7 @@ const PROFILE = {
   education: "Information Technology, Holy Cross of Davao College",
   focus: "Full-stack web and mobile applications",
   email: "lorrence.alparo@gmail.com",
-  resume: "/resume/Christian_Lorrence_Alparo_Resume.pdf",
+  resume: "/resume/LorrenceAlparo-NOV-2026-Resume.pdf",
   // Portrait (leave empty to hide)
   photo: "/images/profile.jpg",
   github: "https://github.com/Jukurenmono",
